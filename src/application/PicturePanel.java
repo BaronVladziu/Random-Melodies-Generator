@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 public class PicturePanel extends JPanel {
 
     public PicturePanel() {
-        setPreferredSize(new Dimension(600, 600));
+        setPreferredSize(new Dimension(700, 800));
     }
 
     @Override

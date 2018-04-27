@@ -2,20 +2,82 @@ package music;
 
 public class NotePitch {
 
-    private E_Note7 _letter;
-    private int _chromaticShift;
-    private int _octaveShift;
+    private E_Note7 _letter = E_Note7.Rest;
+    private int _chromaticShift = 0;
+    private int _octaveShift = 0;
 
     public NotePitch() {
-        this._letter = E_Note7.Rest;
-        this._chromaticShift = 0;
-        this._octaveShift = 0;
     }
 
     public NotePitch(E_Note7 letter, int chromaticShift, int octaveShift) {
         this._letter = letter;
         this._chromaticShift = chromaticShift;
         this._octaveShift = octaveShift;
+    }
+
+    public NotePitch(E_Note12 letter) throws UnsupportedNoteNotationError {
+        switch (letter) {
+            case Rest: {
+                this._letter = E_Note7.Rest;
+                break;
+            }
+            case A: {
+                this._letter = E_Note7.A;
+                break;
+            }
+            case B: {
+                this._letter = E_Note7.B;
+                break;
+            }
+            case C: {
+                this._letter = E_Note7.C;
+                break;
+            }
+            case D: {
+                this._letter = E_Note7.D;
+                break;
+            }
+            case E: {
+                this._letter = E_Note7.E;
+                break;
+            }
+            case F: {
+                this._letter = E_Note7.F;
+                break;
+            }
+            case G: {
+                this._letter = E_Note7.G;
+                break;
+            }
+            case Ais: {
+                this._letter = E_Note7.A;
+                this._chromaticShift = 1;
+                break;
+            }
+            case Cis: {
+                this._letter = E_Note7.C;
+                this._chromaticShift = 1;
+                break;
+            }
+            case Dis: {
+                this._letter = E_Note7.D;
+                this._chromaticShift = 1;
+                break;
+            }
+            case Fis: {
+                this._letter = E_Note7.F;
+                this._chromaticShift = 1;
+                break;
+            }
+            case Gis: {
+                this._letter = E_Note7.G;
+                this._chromaticShift = 1;
+                break;
+            }
+            default: {
+                throw new UnsupportedNoteNotationError("Unsupported note letter");
+            }
+        }
     }
 
     public String getString() {
@@ -55,7 +117,7 @@ public class NotePitch {
     }
 
     private String getChromaticString() {
-        String string = getLetterString();
+        String string = "";
         if (_chromaticShift >= 0) {
             for (int i = _chromaticShift; i > 0; i--) {
                 string += "is";
@@ -70,7 +132,7 @@ public class NotePitch {
     }
 
     private String getOctaveString() {
-        String string = getLetterString();
+        String string = "";
         if (_octaveShift >= 0) {
             for (int i = _octaveShift; i > 0; i--) {
                 string += "'";
