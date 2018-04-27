@@ -1,6 +1,6 @@
 package music;
 
-public enum E_Note13 {
+public enum E_Note12 {
     C,
     Cis,
     D,
@@ -12,5 +12,6 @@ public enum E_Note13 {
     Gis,
     A,
     Ais,
-    B
+    B,
+    Rest
 }

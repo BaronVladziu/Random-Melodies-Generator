@@ -2,9 +2,16 @@ package music;
 
 public class Note {
 
-    private E_Note8 _letter;
-    private int _chromaticShift;
+    private NotePitch _pitch;
+    private NoteDuration _duration;
 
-    public Note()
+    public Note(NotePitch pitch, NoteDuration duration) {
+        this._pitch = pitch;
+        this._duration = duration;
+    }
+
+    String getName() {
+        return _pitch.getString() + _duration.getString();
+    }
 
 }

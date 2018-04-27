@@ -1,11 +1,12 @@
 package music;
 
-public enum E_Note8 {
+public enum E_Note7 {
     C,
     D,
     E,
     F,
     G,
     A,
-    B
+    B,
+    Rest
 }
