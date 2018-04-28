@@ -15,6 +15,10 @@ public class NoteDuration {
         this._dotted = dotted;
     }
 
+    public void setDuration(E_NoteDuration duration) {
+        this._duration = duration;
+    }
+
     public String getString() {
         return getDurationString() + getDotString();
     }
