@@ -1,5 +1,7 @@
 package application;
 
+import music.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,9 +25,21 @@ public class Window extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         _uiPanel.setViewToWorkInProgress();
+        System.out.println("Generating melody settings...");
+        boolean ifNoExceptionHappened = true;
+        try {
+            Melody melody = new Melody(_uiPanel.createMelodySettings());
+        }
+        catch (UnsupportedNoteNotationException exception) {
+            ifNoExceptionHappened = false;
+        }
 
-        System.out.println("Przycisk wciśnięty");
-
+        if (ifNoExceptionHappened) {
+            System.out.println("Melody settings generated");
+        }
+        else {
+            System.out.println("Generating melody settings failed!");
+        }
         _uiPanel.setViewToDone();
     }
 

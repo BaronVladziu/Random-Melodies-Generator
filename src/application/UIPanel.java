@@ -81,4 +81,90 @@ public class UIPanel extends JComponent {
         _button.setEnabled(true);
     }
 
+    public MelodySettings createMelodySettings() throws UnsupportedNoteNotationException {
+        MelodySettings settings = new MelodySettings();
+        boolean ifNoException = true;
+
+        try {
+            settings.setMetre(_metrePanel.getInput());
+        }
+        catch (UnsupportedNoteNotationException exception) {
+            ifNoException = false;
+            System.out.println(exception.getMessage());
+        }
+
+        try {
+            settings.setNumberOfBars(_lengthPanel.getInput());
+        }
+        catch (UnsupportedNoteNotationException exception) {
+            ifNoException = false;
+            System.out.println(exception.getMessage());
+        }
+
+        try {
+            settings.setStartNote(_startSoundPanel.getInput());
+        }
+        catch (UnsupportedNoteNotationException exception) {
+            ifNoException = false;
+            System.out.println(exception.getMessage());
+        }
+
+        try {
+            settings.setEndNote(_endSoundPanel.getInput());
+        }
+        catch (UnsupportedNoteNotationException exception) {
+            ifNoException = false;
+            System.out.println(exception.getMessage());
+        }
+
+        try {
+            settings.setHighestNote(_highestSoundPanel.getInput());
+        }
+        catch (UnsupportedNoteNotationException exception) {
+            ifNoException = false;
+            System.out.println(exception.getMessage());
+        }
+
+        try {
+            settings.setLowestNote(_lowestSoundPanel.getInput());
+        }
+        catch (UnsupportedNoteNotationException exception) {
+            ifNoException = false;
+            System.out.println(exception.getMessage());
+        }
+
+        boolean ifPitchExceptionHappened = false;
+        for (int i = 0; i < _pitchProbabilities.length; i++) {
+            try {
+                settings.setPitchChance(_pitchProbabilities[i].getInput(), i);
+            }
+            catch (UnsupportedNoteNotationException exception) {
+                ifNoException = false;
+                if (!ifPitchExceptionHappened) {
+                    ifPitchExceptionHappened = true;
+                    System.out.println(exception.getMessage());
+                }
+            }
+        }
+
+        boolean ifIntervalExceptionHappened = false;
+        for (int i = 0; i < _intervalProbabilities.length; i++) {
+            try {
+                settings.setIntervalChance(_intervalProbabilities[i].getInput(), i);
+            }
+            catch (UnsupportedNoteNotationException exception) {
+                ifNoException = false;
+                if (!ifIntervalExceptionHappened) {
+                    ifIntervalExceptionHappened = true;
+                    System.out.println(exception.getMessage());
+                }
+            }
+        }
+
+        if (!ifNoException) {
+            throw new UnsupportedNoteNotationException("Wrong input, cannot proceed");
+        }
+        return settings;
+    }
+
 }

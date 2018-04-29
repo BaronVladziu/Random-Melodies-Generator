@@ -65,7 +65,55 @@ public class MelodySettings {
     }
 
     public void setStartNote(String startNote) throws UnsupportedNoteNotationException {
-        //TODO
+        try {
+            _startNote = new NotePitch(startNote);
+        }
+        catch (UnsupportedNoteNotationError error) {
+            throw new UnsupportedNoteNotationException("Unsupprted start note notation: " + error.getMessage());
+        }
+    }
+
+    public void setEndNote(String endNote) throws UnsupportedNoteNotationException {
+        try {
+            _endNote = new NotePitch(endNote);
+        }
+        catch (UnsupportedNoteNotationError error) {
+            throw new UnsupportedNoteNotationException("Unsupprted end note notation: " + error.getMessage());
+        }
+    }
+
+    public void setHighestNote(String highestNote) throws UnsupportedNoteNotationException {
+        try {
+            _highestNote = new NotePitch(highestNote);
+        }
+        catch (UnsupportedNoteNotationError error) {
+            throw new UnsupportedNoteNotationException("Unsupprted highest note notation: " + error.getMessage());
+        }
+    }
+
+    public void setLowestNote(String lowestNote) throws UnsupportedNoteNotationException {
+        try {
+            _lowestNote = new NotePitch(lowestNote);
+        }
+        catch (UnsupportedNoteNotationError error) {
+            throw new UnsupportedNoteNotationException("Unsupprted lowest note notation: " + error.getMessage());
+        }
+    }
+
+    public void setIntervalChance(String intervalChance, int index) throws UnsupportedNoteNotationException {
+        try {
+            _intervalChances[index] = Integer.parseInt(intervalChance);
+        } catch (Exception exception) {
+            throw new UnsupportedNoteNotationException("All interval chances must be integers");
+        }
+    }
+
+    public void setPitchChance(String pitchChance, int index) throws UnsupportedNoteNotationException {
+        try {
+            _pitchChances[index] = Integer.parseInt(pitchChance);
+        } catch (Exception exception) {
+            throw new UnsupportedNoteNotationException("All pitch chances must be integers");
+        }
     }
 
 }

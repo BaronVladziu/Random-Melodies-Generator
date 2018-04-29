@@ -80,6 +80,88 @@ public class NotePitch {
         }
     }
 
+    public NotePitch(String name) throws UnsupportedNoteNotationError {
+        setLetter(name);
+        setOctaveShift(name, setChromaticShift(name));
+    }
+
+    private void setLetter(String name) throws  UnsupportedNoteNotationError {
+        switch (name.charAt(0)) {
+            case 'r': {
+                this._letter = E_Note7.Rest;
+                break;
+            }
+            case 'a': {
+                this._letter = E_Note7.A;
+                break;
+            }
+            case 'b': {
+                this._letter = E_Note7.B;
+                break;
+            }
+            case 'c': {
+                this._letter = E_Note7.C;
+                break;
+            }
+            case 'd': {
+                this._letter = E_Note7.D;
+                break;
+            }
+            case 'e': {
+                this._letter = E_Note7.E;
+                break;
+            }
+            case 'f': {
+                this._letter = E_Note7.F;
+                break;
+            }
+            case 'g': {
+                this._letter = E_Note7.G;
+                break;
+            }
+            default: {
+                throw new UnsupportedNoteNotationError("Unsupported note letter");
+            }
+        }
+    }
+
+    private int setChromaticShift(String name) throws UnsupportedNoteNotationError {
+        int actChar = 1;
+        this._chromaticShift = 0;
+        while (actChar+1 < name.length() && name.charAt(actChar+1) == 's') {
+            if (name.charAt(actChar) == 'i') {
+                this._chromaticShift++;
+            }
+            else if (name.charAt(actChar) == 'e') {
+                this._chromaticShift--;
+            }
+            else {
+                throw new UnsupportedNoteNotationError("Unsupported chromatic shift notation");
+            }
+            actChar += 2;
+        }
+        return actChar;
+    }
+
+    private void setOctaveShift(String name, int actChar) {
+        this._octaveShift = 0;
+        boolean ifEnded = false;
+        while (!ifEnded) {
+            if (actChar < name.length()) {
+                char act = name.charAt(actChar);
+                if (act == '\'') {
+                    this._octaveShift++;
+                } else if (act == ',') {
+                    this._octaveShift--;
+                }
+                actChar++;
+            }
+            else {
+                ifEnded = true;
+            }
+        }
+    }
+
     public String getString() {
         return getLetterString() + getChromaticString() + getOctaveString();
     }
