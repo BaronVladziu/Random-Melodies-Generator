@@ -1,23 +1,32 @@
 package application;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class PicturePanel extends JPanel {
 
+    private BufferedImage image;
+
     public PicturePanel() {
-        setPreferredSize(new Dimension(700, 800));
+        setPreferredSize(new Dimension(800, 900));
+    }
+
+    public void displayImage(String name) throws IOException {
+        File imageFile = new File(name);
+        image = ImageIO.read(imageFile);
+        revalidate();
+        repaint();
     }
 
     @Override
     protected void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
-        Graphics2D graphics2D = (Graphics2D) graphics;
-
-        Rectangle2D rectangle2D = new Rectangle2D.Float(100, 100, 200, 200);
-
-        graphics2D.draw(rectangle2D);
+        Graphics2D g2d = (Graphics2D) graphics;
+        g2d.drawImage(image, 0, 0, this);
     }
 
 }

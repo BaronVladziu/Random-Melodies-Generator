@@ -55,6 +55,10 @@ public class MelodySettings {
         }
     }
 
+    public String getMetre() {
+        return Integer.toString(_metreTimeSignature) + "/" + _metreBeatValue.getString();
+    }
+
     public void setNumberOfBars(String numberOfBars) throws UnsupportedNoteNotationException {
         try {
             _numberOfBars = Integer.parseInt(numberOfBars);

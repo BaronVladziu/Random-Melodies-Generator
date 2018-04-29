@@ -6,11 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Window extends JFrame implements ActionListener {
 
     private PicturePanel _picturePanel = new PicturePanel();
     private UIPanel _uiPanel = new UIPanel(this);
+    private Melody _melody = new Melody();
 
     public Window() {
         super("Random-Melodies-Generator");
@@ -28,7 +30,7 @@ public class Window extends JFrame implements ActionListener {
         System.out.println("Generating melody settings...");
         boolean ifNoExceptionHappened = true;
         try {
-            Melody melody = new Melody(_uiPanel.createMelodySettings());
+            _melody.setSettings(_uiPanel.createMelodySettings());
         }
         catch (UnsupportedNoteNotationException exception) {
             ifNoExceptionHappened = false;
@@ -36,6 +38,15 @@ public class Window extends JFrame implements ActionListener {
 
         if (ifNoExceptionHappened) {
             System.out.println("Melody settings generated");
+            System.out.println("Generating melody...");
+            _melody.generate();
+            try {
+                _picturePanel.displayImage(_melody.getOutputFileName() + ".png");
+            }
+            catch (IOException exception) {
+                System.out.println("Failed to find compiled file");
+            }
+            System.out.println("Melody generated");
         }
         else {
             System.out.println("Generating melody settings failed!");
