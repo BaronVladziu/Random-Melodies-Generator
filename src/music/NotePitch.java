@@ -2,11 +2,17 @@ package music;
 
 public class NotePitch {
 
-    private E_Note7 _letter = E_Note7.Rest;
+    private E_Note7 _letter = E_Note7.B;
     private int _chromaticShift = 0;
     private int _octaveShift = 0;
 
     public NotePitch() {
+    }
+
+    public NotePitch(NotePitch pitch) {
+        _letter = pitch._letter;
+        _chromaticShift = pitch._chromaticShift;
+        _octaveShift = pitch._octaveShift;
     }
 
     public NotePitch(E_Note7 letter, int chromaticShift, int octaveShift) {

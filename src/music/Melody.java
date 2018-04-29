@@ -7,8 +7,9 @@ import java.io.PrintWriter;
 public class Melody {
 
     private MelodySettings _settings;
-    private ArrayList<Note> _notes = new ArrayList<>();
+    private LinkedList<Note> _notes = new LinkedList<>();
     private String _outputFileName = "melody";
+    private Random _random = new Random();
 
     public Melody() {}
 
@@ -27,16 +28,33 @@ public class Melody {
     public void generate() {
         _notes.clear();
         generateRandomDurations();
+        shuffleDurations();
+        //TODO łuki
         generateLilyPondFile();
         compileLilyPondFile();
     }
 
     private void generateRandomDurations() {
         int remainingMelodyLength = _settings._numberOfBars * _settings._metreTimeSignature * _settings._metreBeatValue.getInt();
+        NoteDuration randomDuration = new NoteDuration();
+        int randomDurationInt;
         while (remainingMelodyLength > 0) {
-            _notes.add(new Note(_settings._metreBeatValue));
-            remainingMelodyLength -= _settings._metreBeatValue.getInt();
+            randomDuration.setDuration(E_NoteDuration.values()[_random.nextInt(E_NoteDuration.values().length)], _random.nextBoolean());
+            randomDurationInt = randomDuration.getInt();
+            if (randomDurationInt <= remainingMelodyLength) {
+                _notes.add(new Note(randomDuration));
+                remainingMelodyLength -= randomDurationInt;
+            }
         }
+    }
+
+    private void shuffleDurations() {
+        LinkedList<Note> shuffledNotes = new LinkedList<>();
+        while (_notes.size() > 0) {
+            int i = _random.nextInt(_notes.size());
+            shuffledNotes.add(_notes.remove(i));
+        }
+        _notes = shuffledNotes;
     }
 
     private void generateLilyPondFile() {

@@ -10,7 +10,18 @@ public class NoteDuration {
         this._dotted = false;
     }
 
+    public NoteDuration(NoteDuration duration) {
+        _duration = duration._duration;
+        _dotted = duration._dotted;
+    }
+
     public NoteDuration(E_NoteDuration duration, boolean dotted) {
+        this._duration = duration;
+        this._dotted = dotted;
+        correctDuration();
+    }
+
+    public void setDuration(E_NoteDuration duration, boolean dotted) {
         this._duration = duration;
         this._dotted = dotted;
         correctDuration();
@@ -18,6 +29,11 @@ public class NoteDuration {
 
     public void setDuration(E_NoteDuration duration) {
         this._duration = duration;
+        correctDuration();
+    }
+
+    public void setIfDotted(boolean dotted) {
+        this._dotted = dotted;
         correctDuration();
     }
 

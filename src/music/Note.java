@@ -2,18 +2,18 @@ package music;
 
 public class Note {
 
-    public NotePitch _pitch = new NotePitch();
-    public NoteDuration _duration = new NoteDuration();
+    private NotePitch _pitch = new NotePitch();
+    private NoteDuration _duration = new NoteDuration();
 
     public Note() {}
 
     public Note(NoteDuration duration) {
-        this._duration = duration;
+        this._duration = new NoteDuration(duration);
     }
 
     public Note(NotePitch pitch, NoteDuration duration) {
-        this._pitch = pitch;
-        this._duration = duration;
+        this._pitch = new NotePitch(pitch);
+        this._duration = new NoteDuration(duration);
     }
 
     public String getName() {
