@@ -2,7 +2,7 @@ package music;
 
 public class NotePitch {
 
-    private E_Note7 _letter = E_Note7.B;
+    private E_Note7 _letter = E_Note7.Rest;
     private int _chromaticShift = 0;
     private int _octaveShift = 0;
 
@@ -13,6 +13,10 @@ public class NotePitch {
         _letter = pitch._letter;
         _chromaticShift = pitch._chromaticShift;
         _octaveShift = pitch._octaveShift;
+    }
+
+    public NotePitch(NotePitch pitch, Interval interval) {
+        //TODO
     }
 
     public NotePitch(E_Note7 letter, int chromaticShift, int octaveShift) {
@@ -232,6 +236,49 @@ public class NotePitch {
             }
         }
         return string;
+    }
+
+    public E_Note12 getNote12() throws UnsupportedNoteNotationError {
+        int note12Int;
+        switch (_letter) {
+            case Rest: {
+                return E_Note12.Rest;
+            }
+            case C: {
+                note12Int = E_Note12.C.ordinal();
+                break;
+            }
+            case D: {
+                note12Int = E_Note12.D.ordinal();
+                break;
+            }
+            case E: {
+                note12Int = E_Note12.E.ordinal();
+                break;
+            }
+            case F: {
+                note12Int = E_Note12.F.ordinal();
+                break;
+            }
+            case G: {
+                note12Int = E_Note12.G.ordinal();
+                break;
+            }
+            case A: {
+                note12Int = E_Note12.A.ordinal();
+                break;
+            }
+            case B: {
+                note12Int = E_Note12.B.ordinal();
+                break;
+            }
+            default: {
+                throw new UnsupportedNoteNotationError("Unsupported note letter");
+            }
+        }
+        note12Int += _chromaticShift;
+        note12Int = note12Int % (E_Note12.values().length - 1);
+        return E_Note12.values()[note12Int];
     }
 
 }

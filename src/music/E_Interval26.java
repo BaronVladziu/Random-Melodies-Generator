@@ -1,6 +1,6 @@
 package music;
 
-public enum E_Interval {
+public enum E_Interval26 {
     P1,
     A1,
     d2,

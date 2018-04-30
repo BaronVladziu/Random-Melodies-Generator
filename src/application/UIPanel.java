@@ -20,10 +20,10 @@ public class UIPanel extends JComponent {
     private SettingInputPanel _endSoundPanel = new SettingInputPanel("Dżwięk końcowy:", "c");
     private SettingInputPanel _lowestSoundPanel = new SettingInputPanel("Dżwięk najniższy:", "a,,");
     private SettingInputPanel _highestSoundPanel = new SettingInputPanel("Dżwięk najwyższy:", "a''");
-    private SettingInputPanel _pitchProbabilities[] = new SettingInputPanel[MusicConstants.NUMBER_OF_PITCHES_IN_OCTAVE];
+    private SettingInputPanel _pitchProbabilities[] = new SettingInputPanel[E_Note12.values().length];
     private JButton _button = new JButton("Generate");
     private JComponent _comp2 = new JPanel();
-    private SettingInputPanel _intervalProbabilities[] = new SettingInputPanel[MusicConstants.NUMBER_OF_INTERVALS_IN_OCTAVE];
+    private SettingInputPanel _intervalProbabilities[] = new SettingInputPanel[E_Interval26.values().length];
 
     public UIPanel(Window window) {
         _comp1.setPreferredSize(new Dimension(_NAME_LENGTH + _GAP_LENGTH + _INPUT_LENGTH,
@@ -45,7 +45,7 @@ public class UIPanel extends JComponent {
                 (_intervalProbabilities.length) * (_BAR_HEIGHT + _GAP_LENGTH)));
         _comp2.setLayout(new GridLayout(_intervalProbabilities.length, 0));
         for (int i = 0; i < _intervalProbabilities.length; i++) {
-            _intervalProbabilities[i] = new SettingInputPanel("Szansa na " + new Interval(E_Interval.values()[i]).getString() + ":", "1");
+            _intervalProbabilities[i] = new SettingInputPanel("Szansa na " + new Interval(E_Interval26.values()[i]).getString() + ":", "1");
             _comp2.add(_intervalProbabilities[i]);
         }
         _comp2.setVisible(true);

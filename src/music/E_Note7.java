@@ -8,5 +8,5 @@ public enum E_Note7 {
     G,
     A,
     B,
-    Rest
+    Rest //Rest must me the last value
 }

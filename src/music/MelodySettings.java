@@ -9,8 +9,8 @@ public class MelodySettings {
     public NotePitch _endNote;
     public NotePitch _highestNote;
     public NotePitch _lowestNote;
-    public int[] _intervalChances = new int[MusicConstants.NUMBER_OF_INTERVALS_IN_OCTAVE];
-    public int[] _pitchChances = new int[MusicConstants.NUMBER_OF_PITCHES_IN_OCTAVE];
+    public int[] _intervalChances = new int[E_Interval26.values().length];
+    public int[] _pitchChances = new int[E_Note12.values().length];
 
     public MelodySettings() {
     }

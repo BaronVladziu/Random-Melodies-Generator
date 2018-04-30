@@ -13,5 +13,5 @@ public enum E_Note12 {
     A,
     Ais,
     B,
-    Rest
+    Rest //Rest must be the last value
 }

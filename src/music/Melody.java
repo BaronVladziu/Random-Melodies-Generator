@@ -89,6 +89,7 @@ public class Melody {
     private void generateLilyPondFile() {
         try {
             PrintWriter writer = new PrintWriter(_outputFileName + ".ly", "UTF-8");
+            writer.println("\\version \"2.18.2\"");
             writer.println("\\time " + _settings.getMetre());
             writer.println("{");
             for (Note note : _notes) {
