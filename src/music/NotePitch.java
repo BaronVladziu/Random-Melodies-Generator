@@ -15,8 +15,324 @@ public class NotePitch {
         _octaveShift = pitch._octaveShift;
     }
 
-    public NotePitch(NotePitch pitch, Interval interval) {
-        //TODO
+    public NotePitch(NotePitch pitch, Interval interval, boolean ifUp) {
+        _letter = pitch._letter;
+        _chromaticShift = pitch._chromaticShift;
+        _octaveShift = pitch._octaveShift;
+        int letterInt = _letter.ordinal();
+        int numberOfLetters = E_Note7.values().length - 1;
+        if (interval.isPerfect()) {
+            if (ifUp) {
+                letterInt += interval.getInterval8().ordinal();
+                if (letterInt >= numberOfLetters) {
+                    letterInt -= numberOfLetters;
+                    _octaveShift++;
+                }
+                _letter = E_Note7.values()[letterInt];
+                switch (interval.getIntervalType4()) {
+                    case Diminished: {
+                        _chromaticShift--;
+                        break;
+                    }
+                    case Augmented: {
+                        _chromaticShift++;
+                        break;
+                    }
+                }
+            }
+            else {
+                letterInt -= interval.getInterval8().ordinal();
+                if (letterInt < 0) {
+                    letterInt += numberOfLetters;
+                    _octaveShift--;
+                }
+                _letter = E_Note7.values()[letterInt];
+                switch (interval.getIntervalType4()) {
+                    case Diminished: {
+                        _chromaticShift++;
+                        break;
+                    }
+                    case Augmented: {
+                        _chromaticShift--;
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            E_IntervalType4 typeInKey = checkWhichIntervalTypeIsInKey(interval.getInterval8(), ifUp);
+            if (ifUp) {
+                letterInt += interval.getInterval8().ordinal();
+                if (letterInt >= numberOfLetters) {
+                    letterInt -= numberOfLetters;
+                    _octaveShift++;
+                }
+                _letter = E_Note7.values()[letterInt];
+                _chromaticShift += interval.getIntervalType4().ordinal() - typeInKey.ordinal();
+            }
+            else {
+                letterInt -= interval.getInterval8().ordinal();
+                if (letterInt < 0) {
+                    letterInt += numberOfLetters;
+                    _octaveShift--;
+                }
+                _letter = E_Note7.values()[letterInt];
+                _chromaticShift -= interval.getIntervalType4().ordinal() - typeInKey.ordinal();
+            }
+        }
+    }
+
+    private E_IntervalType4 checkWhichIntervalTypeIsInKey(E_Interval8 interval, boolean ifUp) throws UnsupportedNoteNotationError {
+        switch (_letter) {
+            case C: {
+                switch (interval) {
+                    case Second: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Third: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Sixth: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Seventh: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    default: {
+                        throw new UnsupportedNoteNotationError("Only imperfect intervals allowed");
+                    }
+                }
+            }
+            case D: {
+                switch (interval) {
+                    case Second: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Third: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Sixth: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Seventh: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    default: {
+                        throw new UnsupportedNoteNotationError("Only imperfect intervals allowed");
+                    }
+                }
+            }
+            case E: {
+                switch (interval) {
+                    case Second: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Third: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Sixth: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Seventh: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    default: {
+                        throw new UnsupportedNoteNotationError("Only imperfect intervals allowed");
+                    }
+                }
+            }
+            case F: {
+                switch (interval) {
+                    case Second: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Third: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Sixth: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Seventh: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    default: {
+                        throw new UnsupportedNoteNotationError("Only imperfect intervals allowed");
+                    }
+                }
+            }
+            case G: {
+                switch (interval) {
+                    case Second: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Third: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Sixth: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    case Seventh: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    default: {
+                        throw new UnsupportedNoteNotationError("Only imperfect intervals allowed");
+                    }
+                }
+            }
+            case A: {
+                switch (interval) {
+                    case Second: {
+                        if (ifUp) {
+                            return E_IntervalType4.Major;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Third: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Sixth: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Seventh: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Minor;
+                        }
+                    }
+                    default: {
+                        throw new UnsupportedNoteNotationError("Only imperfect intervals allowed");
+                    }
+                }
+            }
+            case B: {
+                switch (interval) {
+                    case Second: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Third: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Sixth: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    case Seventh: {
+                        if (ifUp) {
+                            return E_IntervalType4.Minor;
+                        } else {
+                            return E_IntervalType4.Major;
+                        }
+                    }
+                    default: {
+                        throw new UnsupportedNoteNotationError("Only imperfect intervals allowed");
+                    }
+                }
+            }
+            default: {
+                throw new UnsupportedNoteNotationError("Unsupported note pitch notation");
+            }
+        }
     }
 
     public NotePitch(E_Note7 letter, int chromaticShift, int octaveShift) {

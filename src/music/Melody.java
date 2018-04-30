@@ -1,8 +1,9 @@
 package music;
 
 import java.io.IOException;
-import java.util.*;
 import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class Melody {
 
@@ -32,7 +33,9 @@ public class Melody {
         shuffleDurations();
         groupNotes(_settings._metreBeatValue.getInt(),
                 _settings._metreTimeSignature * _settings._metreBeatValue.getInt());
-        //TODO: Generate random pitches
+        setRandomPitches();
+        //TODO: Generate midi
+        //TODO: Add double line
         generateLilyPondFile();
         compileLilyPondFile();
     }
@@ -83,6 +86,17 @@ public class Melody {
             while (remainingGroup <= 0) {
                 remainingGroup += groupLength;
             }
+        }
+    }
+
+    private void setRandomPitches() {
+        NotePitch actPitch = _settings._startNote;
+        Interval nextInterval;
+        int numberOfInterval26values = E_Interval26.values().length;
+        for (Note note : _notes) {
+            note.setPitch(actPitch);
+            nextInterval = new Interval(E_Interval26.values()[_random.nextInt(numberOfInterval26values)]);
+            actPitch = new NotePitch(actPitch, nextInterval, _random.nextBoolean());
         }
     }
 

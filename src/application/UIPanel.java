@@ -16,10 +16,10 @@ public class UIPanel extends JComponent {
     private JComponent _comp1 = new JPanel();
     private SettingInputPanel _metrePanel = new SettingInputPanel("Metrum:", "4/4");
     private SettingInputPanel _lengthPanel = new SettingInputPanel("Liczba taktów:", "4");
-    private SettingInputPanel _startSoundPanel = new SettingInputPanel("Dżwięk początkowy:", "c");
-    private SettingInputPanel _endSoundPanel = new SettingInputPanel("Dżwięk końcowy:", "c");
-    private SettingInputPanel _lowestSoundPanel = new SettingInputPanel("Dżwięk najniższy:", "a,,");
-    private SettingInputPanel _highestSoundPanel = new SettingInputPanel("Dżwięk najwyższy:", "a''");
+    private SettingInputPanel _startSoundPanel = new SettingInputPanel("Dżwięk początkowy:", "a'");
+    private SettingInputPanel _endSoundPanel = new SettingInputPanel("Dżwięk końcowy:", "a'");
+    private SettingInputPanel _lowestSoundPanel = new SettingInputPanel("Dżwięk najniższy:", "a");
+    private SettingInputPanel _highestSoundPanel = new SettingInputPanel("Dżwięk najwyższy:", "d'''");
     private SettingInputPanel _pitchProbabilities[] = new SettingInputPanel[E_Note12.values().length];
     private JButton _button = new JButton("Generate");
     private JComponent _comp2 = new JPanel();
