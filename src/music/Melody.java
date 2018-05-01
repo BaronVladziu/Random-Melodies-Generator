@@ -36,7 +36,7 @@ public class Melody {
                 _settings._metreTimeSignature * _settings._metreBeatValue.getInt());
         setRandomPitches();
         //TODO: Correct grouping when metre != 4/4
-        //TODO: Generate midi
+        //TODO: Play midi
         generateLilyPondFile();
         compileLilyPondFile();
     }
@@ -97,13 +97,13 @@ public class Melody {
         int numberOfNotes = _notes.size();
         NotePitch upBorder = new NotePitch(_settings._endNote);
         NotePitch bottomBorder = new NotePitch(_settings._endNote);
-        int intervalID = _settings._intervalChances.length - 1;
-        while (_settings._intervalChances[intervalID] == 0) {
-            intervalID--;
+        int maxIntervalID = _settings._intervalChances.length - 1;
+        while (_settings._intervalChances[maxIntervalID] == 0) {
+            maxIntervalID--;
         }
         for (int i = 2; i < numberOfNotes; i++) {
-            upBorder.jump(new Interval(E_Interval26.values()[intervalID]), true);
-            bottomBorder.jump(new Interval(E_Interval26.values()[intervalID]), false);
+            upBorder.jump(new Interval(E_Interval26.values()[maxIntervalID]), true);
+            bottomBorder.jump(new Interval(E_Interval26.values()[maxIntervalID]), false);
         }
         int numberOfInterval26values = E_Interval26.values().length;
         int nextIntervalChances[] = new int[numberOfInterval26values * 2];
@@ -144,8 +144,8 @@ public class Melody {
             note = it.next();
             note.setPitch(actPitch);
             System.out.println(">--" + nextInterval.getString() + "--> \t" + note.getName());
-            bottomBorder.jump(new Interval(E_Interval26.values()[intervalID]), true);
-            upBorder.jump(new Interval(E_Interval26.values()[intervalID]), false);
+            bottomBorder.jump(new Interval(E_Interval26.values()[maxIntervalID]), true);
+            upBorder.jump(new Interval(E_Interval26.values()[maxIntervalID]), false);
         }
         System.out.print("\n");
     }
@@ -154,12 +154,16 @@ public class Melody {
         try {
             PrintWriter writer = new PrintWriter(_outputFileName + ".ly", "UTF-8");
             writer.println("\\version \"2.18.2\"");
-            writer.println("\\time " + _settings.getMetre());
-            writer.println("{");
+            writer.println("\\score {");
+            writer.println("\t{ \\time " + _settings.getMetre());
+            writer.print("\t\t");
             for (Note note : _notes) {
                 writer.print(note.getName() + " ");
             }
-            writer.println("\\bar \"|.\"\n}");
+            writer.println("\\bar \"|.\"\n\t}");
+            writer.println("\t\\layout { }");
+            writer.println("\t\\midi { }");
+            writer.println("}");
             writer.close();
         }
         catch (Exception exception) {
