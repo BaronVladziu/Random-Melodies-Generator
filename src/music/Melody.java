@@ -36,7 +36,6 @@ public class Melody {
                 _settings._metreTimeSignature * _settings._metreBeatValue.getInt());
         setRandomPitches();
         //TODO: Correct grouping when metre != 4/4
-        //TODO: Correct end note (max interval available)
         //TODO: Generate midi
         generateLilyPondFile();
         compileLilyPondFile();
@@ -98,9 +97,13 @@ public class Melody {
         int numberOfNotes = _notes.size();
         NotePitch upBorder = new NotePitch(_settings._endNote);
         NotePitch bottomBorder = new NotePitch(_settings._endNote);
+        int intervalID = _settings._intervalChances.length - 1;
+        while (_settings._intervalChances[intervalID] == 0) {
+            intervalID--;
+        }
         for (int i = 2; i < numberOfNotes; i++) {
-            upBorder.jump(new Interval(E_Interval26.P5), true);
-            bottomBorder.jump(new Interval(E_Interval26.P5), false);
+            upBorder.jump(new Interval(E_Interval26.values()[intervalID]), true);
+            bottomBorder.jump(new Interval(E_Interval26.values()[intervalID]), false);
         }
         int numberOfInterval26values = E_Interval26.values().length;
         int nextIntervalChances[] = new int[numberOfInterval26values * 2];
@@ -141,8 +144,8 @@ public class Melody {
             note = it.next();
             note.setPitch(actPitch);
             System.out.println(">--" + nextInterval.getString() + "--> \t" + note.getName());
-            bottomBorder.jump(new Interval(E_Interval26.P5), true);
-            upBorder.jump(new Interval(E_Interval26.P5), false);
+            bottomBorder.jump(new Interval(E_Interval26.values()[intervalID]), true);
+            upBorder.jump(new Interval(E_Interval26.values()[intervalID]), false);
         }
         System.out.print("\n");
     }
