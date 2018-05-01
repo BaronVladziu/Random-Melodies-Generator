@@ -1,6 +1,7 @@
 package application;
 
-import music.*;
+import music.Melody;
+import music.UnsupportedNoteNotationException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +40,12 @@ public class Window extends JFrame implements ActionListener {
         if (ifNoExceptionHappened) {
             System.out.println("Melody settings generated");
             System.out.println("Generating melody...");
-            _melody.generate();
+            try {
+                _melody.generate();
+            }
+            catch (UnsupportedNoteNotationException exception) {
+                System.out.println(exception.getMessage());
+            }
             try {
                 _picturePanel.displayImage(_melody.getOutputFileName() + ".png");
             }

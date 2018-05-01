@@ -3,6 +3,7 @@ package music;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Random;
 
 public class Melody {
@@ -27,16 +28,16 @@ public class Melody {
         return _outputFileName;
     }
 
-    public void generate() {
+    public void generate() throws UnsupportedNoteNotationException {
         _notes.clear();
         generateRandomDurations();
         shuffleDurations();
         groupNotes(_settings._metreBeatValue.getInt(),
                 _settings._metreTimeSignature * _settings._metreBeatValue.getInt());
         setRandomPitches();
-        //TODO: End note
+        //TODO: Correct grouping when metre != 4/4
+        //TODO: Correct end note (max interval available)
         //TODO: Generate midi
-        //TODO: Add double line
         generateLilyPondFile();
         compileLilyPondFile();
     }
@@ -64,8 +65,8 @@ public class Melody {
             shuffledNotes.add(_notes.remove(i));
         }
         _notes = shuffledNotes;
-        System.out.println("Durations:");
-        printNotes();
+//        System.out.println("Durations:");
+//        printNotes();
     }
 
     private void printNotes() {
@@ -91,24 +92,34 @@ public class Melody {
         }
     }
 
-    private void setRandomPitches() {
-        NotePitch actPitch = _settings._startNote;
+    private void setRandomPitches() throws UnsupportedNoteNotationException {
+        NotePitch actPitch = new NotePitch(_settings._startNote);
         Interval nextInterval;
+        int numberOfNotes = _notes.size();
+        NotePitch upBorder = new NotePitch(_settings._endNote);
+        NotePitch bottomBorder = new NotePitch(_settings._endNote);
+        for (int i = 2; i < numberOfNotes; i++) {
+            upBorder.jump(new Interval(E_Interval26.P5), true);
+            bottomBorder.jump(new Interval(E_Interval26.P5), false);
+        }
         int numberOfInterval26values = E_Interval26.values().length;
         int nextIntervalChances[] = new int[numberOfInterval26values * 2];
         int sum;
         int drawnValue;
         int nextIntervalID;
         NotePitch nextPitch;
+        Note note;
         System.out.println("Sounds & Intervals:");
-        for (Note note : _notes) {
-            note.setPitch(actPitch);
-            System.out.print(note.getName());
+        ListIterator<Note> it = _notes.listIterator();
+        it.next().setPitch(actPitch);
+        while (it.hasNext()) {
             sum = 0;
             for (int i = 0; i < nextIntervalChances.length; i++) {
                 nextIntervalChances[i] = _settings._intervalChances[i/2] * _settings._intervalChances[i/2];
                 nextPitch = new NotePitch(actPitch, new Interval(E_Interval26.values()[i/2]), i%2 == 1);
-                if (nextPitch.isChromaticShiftCorrect() && nextPitch.isInRange(_settings._lowestNote, _settings._highestNote)) {
+                if (nextPitch.isChromaticShiftCorrect() &&
+                        nextPitch.isInRange(_settings._lowestNote, _settings._highestNote) &&
+                        nextPitch.isInRange(bottomBorder, upBorder)) {
                     nextIntervalChances[i] *= _settings._pitchChances[nextPitch.getNote12().ordinal()];
                 }
                 else {
@@ -116,7 +127,10 @@ public class Melody {
                 }
                 sum += nextIntervalChances[i];
             }
-            drawnValue = _random.nextInt(sum);
+            if (sum <= 0) {
+                throw new UnsupportedNoteNotationException("Could not generate whole melody. Please check your settings.");
+            }
+            drawnValue = _random.nextInt(sum) + 1;
             nextIntervalID = -1;
             while (drawnValue > 0) {
                 nextIntervalID++;
@@ -124,8 +138,13 @@ public class Melody {
             }
             nextInterval = new Interval(E_Interval26.values()[nextIntervalID/2]);
             actPitch = new NotePitch(actPitch, nextInterval, nextIntervalID%2 == 1);
-            System.out.println("  >--" + nextInterval.getString() + "--> ");
+            note = it.next();
+            note.setPitch(actPitch);
+            System.out.println(">--" + nextInterval.getString() + "--> \t" + note.getName());
+            bottomBorder.jump(new Interval(E_Interval26.P5), true);
+            upBorder.jump(new Interval(E_Interval26.P5), false);
         }
+        System.out.print("\n");
     }
 
     private void generateLilyPondFile() {
@@ -137,7 +156,7 @@ public class Melody {
             for (Note note : _notes) {
                 writer.print(note.getName() + " ");
             }
-            writer.println("\n}");
+            writer.println("\\bar \"|.\"\n}");
             writer.close();
         }
         catch (Exception exception) {

@@ -134,9 +134,11 @@ public class UIPanel extends JComponent {
         }
 
         if (!settings._startNote.isInRange(settings._lowestNote, settings._highestNote)) {
+            ifNoException = false;
             System.out.println("Start note is not between lowest and highest notes");
         }
         if (!settings._endNote.isInRange(settings._lowestNote, settings._highestNote)) {
+            ifNoException = false;
             System.out.println("End note is not between lowest and highest notes");
         }
 

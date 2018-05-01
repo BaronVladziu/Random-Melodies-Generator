@@ -19,6 +19,10 @@ public class NotePitch {
         _letter = pitch._letter;
         _chromaticShift = pitch._chromaticShift;
         _octaveShift = pitch._octaveShift;
+        jump(interval, ifUp);
+    }
+
+    public void jump(Interval interval, boolean ifUp) {
         int letterInt = _letter.ordinal();
         int numberOfLetters = E_Note7.values().length - 1;
         if (interval.isPerfect()) {
@@ -419,27 +423,11 @@ public class NotePitch {
     }
 
     public boolean isInRange(NotePitch bottom, NotePitch up) {
-        if (bottom.getNote12().ordinal() <= this.getNote12().ordinal()) {
-            if (bottom._octaveShift > this._octaveShift) {
-                return false;
-            }
+        if (bottom.getMidi() <= this.getMidi() &&
+                up.getMidi() >= this.getMidi()) {
+            return true;
         }
-        else {
-            if (bottom._octaveShift >= this._octaveShift) {
-                return false;
-            }
-        }
-        if (up.getNote12().ordinal() >= this.getNote12().ordinal()) {
-            if (up._octaveShift < this._octaveShift) {
-                return false;
-            }
-        }
-        else {
-            if (up._octaveShift <= this._octaveShift) {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
 
     private void setLetter(String name) throws  UnsupportedNoteNotationError {
@@ -631,6 +619,49 @@ public class NotePitch {
             note12Int = note12Int % (E_Note12.values().length - 1);
         }
         return E_Note12.values()[note12Int];
+    }
+
+    public int getMidi() throws UnsupportedNoteNotationError {
+        int midi;
+        switch (_letter) {
+            case Rest: {
+                throw new UnsupportedNoteNotationError("Cannot convert rest into MIDI value");
+            }
+            case C: {
+                midi = 48;
+                break;
+            }
+            case D: {
+                midi = 50;
+                break;
+            }
+            case E: {
+                midi = 52;
+                break;
+            }
+            case F: {
+                midi = 53;
+                break;
+            }
+            case G: {
+                midi = 55;
+                break;
+            }
+            case A: {
+                midi = 57;
+                break;
+            }
+            case B: {
+                midi = 59;
+                break;
+            }
+            default: {
+                throw new UnsupportedNoteNotationError("Unsupported note letter");
+            }
+        }
+        midi += _chromaticShift;
+        midi += 12 * _octaveShift;
+        return midi;
     }
 
 }
