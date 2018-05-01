@@ -34,6 +34,7 @@ public class Melody {
         groupNotes(_settings._metreBeatValue.getInt(),
                 _settings._metreTimeSignature * _settings._metreBeatValue.getInt());
         setRandomPitches();
+        //TODO: End note
         //TODO: Generate midi
         //TODO: Add double line
         generateLilyPondFile();
@@ -63,7 +64,8 @@ public class Melody {
             shuffledNotes.add(_notes.remove(i));
         }
         _notes = shuffledNotes;
-        printNotes(); //TODO: Delete this line
+        System.out.println("Durations:");
+        printNotes();
     }
 
     private void printNotes() {
@@ -93,10 +95,36 @@ public class Melody {
         NotePitch actPitch = _settings._startNote;
         Interval nextInterval;
         int numberOfInterval26values = E_Interval26.values().length;
+        int nextIntervalChances[] = new int[numberOfInterval26values * 2];
+        int sum;
+        int drawnValue;
+        int nextIntervalID;
+        NotePitch nextPitch;
+        System.out.println("Sounds & Intervals:");
         for (Note note : _notes) {
             note.setPitch(actPitch);
-            nextInterval = new Interval(E_Interval26.values()[_random.nextInt(numberOfInterval26values)]);
-            actPitch = new NotePitch(actPitch, nextInterval, _random.nextBoolean());
+            System.out.print(note.getName());
+            sum = 0;
+            for (int i = 0; i < nextIntervalChances.length; i++) {
+                nextIntervalChances[i] = _settings._intervalChances[i/2] * _settings._intervalChances[i/2];
+                nextPitch = new NotePitch(actPitch, new Interval(E_Interval26.values()[i/2]), i%2 == 1);
+                if (nextPitch.isChromaticShiftCorrect() && nextPitch.isInRange(_settings._lowestNote, _settings._highestNote)) {
+                    nextIntervalChances[i] *= _settings._pitchChances[nextPitch.getNote12().ordinal()];
+                }
+                else {
+                    nextIntervalChances[i] = 0;
+                }
+                sum += nextIntervalChances[i];
+            }
+            drawnValue = _random.nextInt(sum);
+            nextIntervalID = -1;
+            while (drawnValue > 0) {
+                nextIntervalID++;
+                drawnValue -= nextIntervalChances[nextIntervalID];
+            }
+            nextInterval = new Interval(E_Interval26.values()[nextIntervalID/2]);
+            actPitch = new NotePitch(actPitch, nextInterval, nextIntervalID%2 == 1);
+            System.out.println("  >--" + nextInterval.getString() + "--> ");
         }
     }
 

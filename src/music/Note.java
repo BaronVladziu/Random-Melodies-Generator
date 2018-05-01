@@ -43,24 +43,22 @@ public class Note {
         if (remainingNoteDuration <= remainingGroup) {
             return noteDuration;
         }
-//        if (remainingNoteDuration <= remainingBar &&
-//                (remainingGroup % groupLength == 0 || remainingNoteDuration % groupLength == 0) ) {
-//            return noteDuration;
-//        }
         _durations.clear();
         NoteDuration tmpDur;
         int tmpDurInt;
         int i = 0;
-        while (remainingGroup > 0) {
-            tmpDur = new NoteDuration(E_NoteDuration.values()[i], false);
-            tmpDurInt = tmpDur.getInt();
-            if (remainingGroup % (tmpDurInt*2) != 0) {
-                _durations.add(tmpDur);
-                remainingGroup -= tmpDurInt;
-                remainingNoteDuration -= tmpDurInt;
-                remainingBar -= tmpDurInt;
+        if (remainingGroup != groupLength) {
+            while (remainingGroup > 0) {
+                tmpDur = new NoteDuration(E_NoteDuration.values()[i], false);
+                tmpDurInt = tmpDur.getInt();
+                if (remainingGroup % (tmpDurInt * 2) != 0) {
+                    _durations.add(tmpDur);
+                    remainingGroup -= tmpDurInt;
+                    remainingNoteDuration -= tmpDurInt;
+                    remainingBar -= tmpDurInt;
+                }
+                i++;
             }
-            i++;
         }
         if (remainingNoteDuration > remainingBar) {
             while (remainingBar > 0) {

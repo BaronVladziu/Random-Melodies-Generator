@@ -411,6 +411,37 @@ public class NotePitch {
         setOctaveShift(name, setChromaticShift(name));
     }
 
+    public boolean isChromaticShiftCorrect() {
+        if (_chromaticShift >= -2 && _chromaticShift <= 2) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isInRange(NotePitch bottom, NotePitch up) {
+        if (bottom.getNote12().ordinal() <= this.getNote12().ordinal()) {
+            if (bottom._octaveShift > this._octaveShift) {
+                return false;
+            }
+        }
+        else {
+            if (bottom._octaveShift >= this._octaveShift) {
+                return false;
+            }
+        }
+        if (up.getNote12().ordinal() >= this.getNote12().ordinal()) {
+            if (up._octaveShift < this._octaveShift) {
+                return false;
+            }
+        }
+        else {
+            if (up._octaveShift <= this._octaveShift) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void setLetter(String name) throws  UnsupportedNoteNotationError {
         switch (name.charAt(0)) {
             case 'r': {
@@ -593,7 +624,12 @@ public class NotePitch {
             }
         }
         note12Int += _chromaticShift;
-        note12Int = note12Int % (E_Note12.values().length - 1);
+        if (note12Int < 0) {
+            note12Int += E_Note12.values().length - 1;
+        }
+        else {
+            note12Int = note12Int % (E_Note12.values().length - 1);
+        }
         return E_Note12.values()[note12Int];
     }
 

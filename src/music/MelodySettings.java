@@ -23,6 +23,9 @@ public class MelodySettings {
         }
         try {
             _metreTimeSignature = Integer.parseInt(numbers[0]);
+            if (_metreTimeSignature <= 0) {
+                throw new UnsupportedNoteNotationException("Time signature must be greater than 0");
+            }
             beatValue = Integer.parseInt(numbers[1]);
         }
         catch (Exception exception) {
@@ -62,6 +65,9 @@ public class MelodySettings {
     public void setNumberOfBars(String numberOfBars) throws UnsupportedNoteNotationException {
         try {
             _numberOfBars = Integer.parseInt(numberOfBars);
+            if (_numberOfBars <= 0) {
+                throw new UnsupportedNoteNotationException("Number of bars must be greater than 0");
+            }
         }
         catch (Exception exception) {
             throw new UnsupportedNoteNotationException("Number of bars must be an integer");
@@ -107,6 +113,9 @@ public class MelodySettings {
     public void setIntervalChance(String intervalChance, int index) throws UnsupportedNoteNotationException {
         try {
             _intervalChances[index] = Integer.parseInt(intervalChance);
+            if (_intervalChances[index] < 0) {
+                throw new UnsupportedNoteNotationException("All interval chances must be greater or equal to 0");
+            }
         } catch (Exception exception) {
             throw new UnsupportedNoteNotationException("All interval chances must be integers");
         }
@@ -115,6 +124,9 @@ public class MelodySettings {
     public void setPitchChance(String pitchChance, int index) throws UnsupportedNoteNotationException {
         try {
             _pitchChances[index] = Integer.parseInt(pitchChance);
+            if (_pitchChances[index] < 0) {
+                throw new UnsupportedNoteNotationException("All pitch chances must be greater or equal to 0");
+            }
         } catch (Exception exception) {
             throw new UnsupportedNoteNotationException("All pitch chances must be integers");
         }
