@@ -34,9 +34,9 @@ public class Melody {
         shuffleDurations();
         groupNotes(_settings._metreBeatValue.getInt(),
                 _settings._metreTimeSignature * _settings._metreBeatValue.getInt());
-        setRandomPitches();
         //TODO: Correct grouping when metre != 4/4
-        //TODO: Play midi
+        //TODO: Correct UI
+        setRandomPitches();
         generateLilyPondFile();
         compileLilyPondFile();
     }
@@ -162,7 +162,7 @@ public class Melody {
             }
             writer.println("\\bar \"|.\"\n\t}");
             writer.println("\t\\layout { }");
-            writer.println("\t\\midi { }");
+            writer.println("\t\\midi { \\tempo 4 = 120 }");
             writer.println("}");
             writer.close();
         }

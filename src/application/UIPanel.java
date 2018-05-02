@@ -21,11 +21,12 @@ public class UIPanel extends JComponent {
     private SettingInputPanel _lowestSoundPanel = new SettingInputPanel("Dżwięk najniższy:", "a");
     private SettingInputPanel _highestSoundPanel = new SettingInputPanel("Dżwięk najwyższy:", "d'''");
     private SettingInputPanel _pitchProbabilities[] = new SettingInputPanel[E_Note12.values().length];
-    private JButton _button = new JButton("Generate");
+    private JButton _generateButton = new JButton("Generate");
+    private JButton _playButton = new JButton("Play");
     private JComponent _comp2 = new JPanel();
     private SettingInputPanel _intervalProbabilities[] = new SettingInputPanel[E_Interval26.values().length];
 
-    public UIPanel(Window window) {
+    public UIPanel(Window window, MidiPlayer midiPlayer) {
         _comp1.setPreferredSize(new Dimension(_NAME_LENGTH + _GAP_LENGTH + _INPUT_LENGTH,
                 (6 + _pitchProbabilities.length) * (_BAR_HEIGHT + _GAP_LENGTH)));
         _comp1.setLayout(new GridLayout(6 + _pitchProbabilities.length, 0));
@@ -50,15 +51,19 @@ public class UIPanel extends JComponent {
         }
         _comp2.setVisible(true);
 
-        _button.setPreferredSize(new Dimension(_comp1.getPreferredSize().width,
-                _comp2.getPreferredSize().height - _comp1.getPreferredSize().height - 2*_GAP_LENGTH));
-        _button.addActionListener(window);
+        _generateButton.setPreferredSize(new Dimension(_comp1.getPreferredSize().width,
+                (_comp2.getPreferredSize().height - _comp1.getPreferredSize().height - 2*_GAP_LENGTH)/2));
+        _generateButton.addActionListener(window);
+        _playButton.setPreferredSize(new Dimension(_comp1.getPreferredSize().width,
+                (_comp2.getPreferredSize().height - _comp1.getPreferredSize().height - 2*_GAP_LENGTH)/2));
+        _playButton.addActionListener(midiPlayer);
         setViewToDone();
         _comp3.setPreferredSize(new Dimension(_comp1.getPreferredSize().width,
                 _comp2.getPreferredSize().height));
         _comp3.setLayout(new FlowLayout());
         _comp3.add(_comp1);
-        _comp3.add(_button);
+        _comp3.add(_generateButton);
+        _comp3.add(_playButton);
         _comp3.setVisible(true);
 
         setPreferredSize(new Dimension( _comp3.getPreferredSize().width + _GAP_LENGTH + _comp2.getPreferredSize().width,
@@ -70,15 +75,15 @@ public class UIPanel extends JComponent {
     }
 
     public void setViewToWorkInProgress() {
-        _button.setEnabled(false);
-        _button.setText("Working...");
-        _button.setBackground(Color.GRAY);
+        _generateButton.setEnabled(false);
+        _generateButton.setText("Working...");
+        _generateButton.setBackground(Color.GRAY);
     }
 
     public void setViewToDone() {
-        _button.setBackground(Color.WHITE);
-        _button.setText("Generate");
-        _button.setEnabled(true);
+        _generateButton.setBackground(Color.WHITE);
+        _generateButton.setText("Generate");
+        _generateButton.setEnabled(true);
     }
 
     public MelodySettings createMelodySettings() throws UnsupportedNoteNotationException {

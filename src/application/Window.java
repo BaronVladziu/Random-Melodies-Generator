@@ -12,8 +12,10 @@ import java.io.IOException;
 public class Window extends JFrame implements ActionListener {
 
     private PicturePanel _picturePanel = new PicturePanel();
-    private UIPanel _uiPanel = new UIPanel(this);
     private Melody _melody = new Melody();
+    private MidiPlayer _midiPlayer = new MidiPlayer(_melody.getOutputFileName());
+    private UIPanel _uiPanel = new UIPanel(this, _midiPlayer);
+
 
     public Window() {
         super("Random-Melodies-Generator");
