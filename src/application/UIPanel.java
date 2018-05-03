@@ -21,8 +21,9 @@ public class UIPanel extends JComponent {
     private SettingInputPanel _lowestSoundPanel = new SettingInputPanel("Dżwięk najniższy:", "a");
     private SettingInputPanel _highestSoundPanel = new SettingInputPanel("Dżwięk najwyższy:", "d'''");
     private SettingInputPanel _pitchProbabilities[] = new SettingInputPanel[E_Note12.values().length];
-    private JButton _generateButton = new JButton("Generate");
-    private JButton _playButton = new JButton("Play");
+    private SettingInputPanel _tempoPanel = new SettingInputPanel("Tempo [bpm]:", "90");
+    private JButton _generateButton = new JButton("Generuj");
+    private JButton _playButton = new JButton("Graj");
     private JComponent _comp2 = new JPanel();
     private SettingInputPanel _intervalProbabilities[] = new SettingInputPanel[E_Interval26.values().length];
 
@@ -36,10 +37,11 @@ public class UIPanel extends JComponent {
         _comp1.add(_endSoundPanel);
         _comp1.add(_lowestSoundPanel);
         _comp1.add(_highestSoundPanel);
-        for (int i = 0; i < _pitchProbabilities.length; i++) {
+        for (int i = 0; i < _pitchProbabilities.length - 1; i++) {
             _pitchProbabilities[i] = new SettingInputPanel("Szansa na " + new NotePitch(E_Note12.values()[i]).getString() + ":", "1");
             _comp1.add(_pitchProbabilities[i]);
         }
+        _comp1.add(_tempoPanel);
         _comp1.setVisible(true);
 
         _comp2.setPreferredSize(new Dimension(_comp1.getPreferredSize().width,
@@ -76,14 +78,18 @@ public class UIPanel extends JComponent {
 
     public void setViewToWorkInProgress() {
         _generateButton.setEnabled(false);
-        _generateButton.setText("Working...");
+        _generateButton.setText("Pracuję...");
         _generateButton.setBackground(Color.GRAY);
+        _playButton.setEnabled(false);
+        _playButton.setBackground(Color.GRAY);
     }
 
     public void setViewToDone() {
         _generateButton.setBackground(Color.WHITE);
-        _generateButton.setText("Generate");
+        _generateButton.setText("Generuj");
         _generateButton.setEnabled(true);
+        _playButton.setBackground(Color.WHITE);
+        _playButton.setEnabled(true);
     }
 
     public MelodySettings createMelodySettings() throws UnsupportedNoteNotationException {
@@ -148,7 +154,7 @@ public class UIPanel extends JComponent {
         }
 
         boolean ifPitchExceptionHappened = false;
-        for (int i = 0; i < _pitchProbabilities.length; i++) {
+        for (int i = 0; i < _pitchProbabilities.length - 1; i++) {
             try {
                 settings.setPitchChance(_pitchProbabilities[i].getInput(), i);
             }
@@ -159,6 +165,14 @@ public class UIPanel extends JComponent {
                     System.out.println(exception.getMessage());
                 }
             }
+        }
+
+        try {
+            settings.setTempo(_tempoPanel.getInput());
+        }
+        catch (UnsupportedNoteNotationException exception) {
+            ifNoException = false;
+            System.out.println(exception.getMessage());
         }
 
         boolean ifIntervalExceptionHappened = false;

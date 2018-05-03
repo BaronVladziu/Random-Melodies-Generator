@@ -11,6 +11,7 @@ public class MelodySettings {
     public NotePitch _lowestNote;
     public int[] _intervalChances = new int[E_Interval26.values().length];
     public int[] _pitchChances = new int[E_Note12.values().length];
+    public int _tempo;
 
     public MelodySettings() {
     }
@@ -129,6 +130,18 @@ public class MelodySettings {
             }
         } catch (Exception exception) {
             throw new UnsupportedNoteNotationException("All pitch chances must be integers");
+        }
+    }
+
+    public void setTempo(String tempo) throws UnsupportedNoteNotationException {
+        try {
+            _tempo = Integer.parseInt(tempo);
+            if (_tempo <= 0) {
+                throw new UnsupportedNoteNotationException("Tempo must be greater than 0");
+            }
+        }
+        catch (Exception exception) {
+            throw new UnsupportedNoteNotationException("Tempo must be an integer");
         }
     }
 

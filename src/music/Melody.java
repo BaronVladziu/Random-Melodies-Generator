@@ -162,7 +162,7 @@ public class Melody {
             }
             writer.println("\\bar \"|.\"\n\t}");
             writer.println("\t\\layout { }");
-            writer.println("\t\\midi { \\tempo 4 = 120 }");
+            writer.println("\t\\midi { \\tempo 4 = " + _settings._tempo + " }");
             writer.println("}");
             writer.close();
         }
