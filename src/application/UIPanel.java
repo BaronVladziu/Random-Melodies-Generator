@@ -5,29 +5,27 @@ import music.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class UIPanel extends JComponent {
+class UIPanel extends JComponent {
 
     private static final int _NAME_LENGTH = 130;
     private static final int _INPUT_LENGTH = 30;
     private static final int _BAR_HEIGHT = 25;
     private static final int _GAP_LENGTH = 10;
 
-    private JComponent _comp3 = new JPanel();
-    private JComponent _comp1 = new JPanel();
-    private SettingInputPanel _metrePanel = new SettingInputPanel("Metrum:", "4/4");
-    private SettingInputPanel _lengthPanel = new SettingInputPanel("Liczba taktów:", "4");
-    private SettingInputPanel _startSoundPanel = new SettingInputPanel("Dżwięk początkowy:", "a'");
-    private SettingInputPanel _endSoundPanel = new SettingInputPanel("Dżwięk końcowy:", "a'");
-    private SettingInputPanel _lowestSoundPanel = new SettingInputPanel("Dżwięk najniższy:", "a");
-    private SettingInputPanel _highestSoundPanel = new SettingInputPanel("Dżwięk najwyższy:", "d'''");
-    private SettingInputPanel _pitchProbabilities[] = new SettingInputPanel[E_Note12.values().length];
-    private SettingInputPanel _tempoPanel = new SettingInputPanel("Tempo [bpm]:", "90");
-    private JButton _generateButton = new JButton("Generuj");
-    private JButton _playButton = new JButton("Graj");
-    private JComponent _comp2 = new JPanel();
-    private SettingInputPanel _intervalProbabilities[] = new SettingInputPanel[E_Interval26.values().length];
+    private final SettingInputPanel _metrePanel = new SettingInputPanel("Metrum:", "4/4");
+    private final SettingInputPanel _lengthPanel = new SettingInputPanel("Liczba taktów:", "4");
+    private final SettingInputPanel _startSoundPanel = new SettingInputPanel("Dżwięk początkowy:", "a'");
+    private final SettingInputPanel _endSoundPanel = new SettingInputPanel("Dżwięk końcowy:", "a'");
+    private final SettingInputPanel _lowestSoundPanel = new SettingInputPanel("Dżwięk najniższy:", "a");
+    private final SettingInputPanel _highestSoundPanel = new SettingInputPanel("Dżwięk najwyższy:", "d'''");
+    private final SettingInputPanel[] _pitchProbabilities = new SettingInputPanel[E_Note12.values().length];
+    private final SettingInputPanel _tempoPanel = new SettingInputPanel("Tempo [bpm]:", "90");
+    private final JButton _generateButton = new JButton("Generuj");
+    private final JButton _playButton = new JButton("Graj");
+    private final SettingInputPanel[] _intervalProbabilities = new SettingInputPanel[E_Interval26.values().length];
 
-    public UIPanel(Window window, MidiPlayer midiPlayer) {
+    UIPanel(Window window, MidiPlayer midiPlayer) {
+        JComponent _comp1 = new JPanel();
         _comp1.setPreferredSize(new Dimension(_NAME_LENGTH + _GAP_LENGTH + _INPUT_LENGTH,
                 (6 + _pitchProbabilities.length) * (_BAR_HEIGHT + _GAP_LENGTH)));
         _comp1.setLayout(new GridLayout(6 + _pitchProbabilities.length, 0));
@@ -44,6 +42,7 @@ public class UIPanel extends JComponent {
         _comp1.add(_tempoPanel);
         _comp1.setVisible(true);
 
+        JComponent _comp2 = new JPanel();
         _comp2.setPreferredSize(new Dimension(_comp1.getPreferredSize().width,
                 (_intervalProbabilities.length) * (_BAR_HEIGHT + _GAP_LENGTH)));
         _comp2.setLayout(new GridLayout(_intervalProbabilities.length, 0));
@@ -60,6 +59,7 @@ public class UIPanel extends JComponent {
                 (_comp2.getPreferredSize().height - _comp1.getPreferredSize().height - 2*_GAP_LENGTH)/2));
         _playButton.addActionListener(midiPlayer);
         setViewToDone();
+        JComponent _comp3 = new JPanel();
         _comp3.setPreferredSize(new Dimension(_comp1.getPreferredSize().width,
                 _comp2.getPreferredSize().height));
         _comp3.setLayout(new FlowLayout());
@@ -76,7 +76,7 @@ public class UIPanel extends JComponent {
         setVisible(true);
     }
 
-    public void setViewToWorkInProgress() {
+    void setViewToWorkInProgress() {
         _generateButton.setEnabled(false);
         _generateButton.setText("Pracuję...");
         _generateButton.setBackground(Color.GRAY);
@@ -84,7 +84,7 @@ public class UIPanel extends JComponent {
         _playButton.setBackground(Color.GRAY);
     }
 
-    public void setViewToDone() {
+    void setViewToDone() {
         _generateButton.setBackground(Color.WHITE);
         _generateButton.setText("Generuj");
         _generateButton.setEnabled(true);
@@ -92,7 +92,7 @@ public class UIPanel extends JComponent {
         _playButton.setEnabled(true);
     }
 
-    public MelodySettings createMelodySettings() throws UnsupportedNoteNotationException {
+    MelodySettings createMelodySettings() throws UnsupportedNoteNotationException {
         MelodySettings settings = new MelodySettings();
         boolean ifNoException = true;
 

@@ -7,15 +7,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class PicturePanel extends JPanel {
+class PicturePanel extends JPanel {
 
     private BufferedImage image;
 
-    public PicturePanel() {
+    PicturePanel() {
         setPreferredSize(new Dimension(800, 900));
     }
 
-    public void displayImage(String name) throws IOException {
+    void displayImage(String name) throws IOException {
         File imageFile = new File(name);
         image = ImageIO.read(imageFile);
         revalidate();

@@ -5,23 +5,23 @@ public class NoteDuration {
     private E_NoteDuration _duration;
     private boolean _dotted;
 
-    public NoteDuration() {
+    NoteDuration() {
         this._duration = E_NoteDuration.Note4;
         this._dotted = false;
     }
 
-    public NoteDuration(NoteDuration duration) {
+    NoteDuration(NoteDuration duration) {
         _duration = duration._duration;
         _dotted = duration._dotted;
     }
 
-    public NoteDuration(E_NoteDuration duration, boolean dotted) {
+    NoteDuration(E_NoteDuration duration, boolean dotted) {
         this._duration = duration;
         this._dotted = dotted;
         correctDuration();
     }
 
-    public void setDuration(E_NoteDuration duration, boolean dotted) {
+    void setDuration(E_NoteDuration duration, boolean dotted) {
         this._duration = duration;
         this._dotted = dotted;
         correctDuration();
@@ -43,7 +43,7 @@ public class NoteDuration {
         }
     }
 
-    public int getInt() throws UnsupportedNoteNotationError {
+    int getInt() throws UnsupportedNoteNotationError {
         int duration;
         switch (_duration) {
             case Note1: {
@@ -81,7 +81,7 @@ public class NoteDuration {
     }
 
     private String getDurationString() throws UnsupportedNoteNotationError {
-        String string = new String();
+        String string = "";
         switch (_duration) {
             case Note1: {
                 string += "1";
@@ -111,7 +111,7 @@ public class NoteDuration {
     }
 
     private String getDotString() {
-        if (_dotted == true) {
+        if (_dotted) {
             return ".";
         }
         else {

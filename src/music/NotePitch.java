@@ -6,23 +6,23 @@ public class NotePitch {
     private int _chromaticShift = 0;
     private int _octaveShift = 0;
 
-    public NotePitch() {
+    NotePitch() {
     }
 
-    public NotePitch(NotePitch pitch) {
+    NotePitch(NotePitch pitch) {
         _letter = pitch._letter;
         _chromaticShift = pitch._chromaticShift;
         _octaveShift = pitch._octaveShift;
     }
 
-    public NotePitch(NotePitch pitch, Interval interval, boolean ifUp) {
+    NotePitch(NotePitch pitch, Interval interval, boolean ifUp) {
         _letter = pitch._letter;
         _chromaticShift = pitch._chromaticShift;
         _octaveShift = pitch._octaveShift;
         jump(interval, ifUp);
     }
 
-    public void jump(Interval interval, boolean ifUp) {
+    void jump(Interval interval, boolean ifUp) {
         int letterInt = _letter.ordinal();
         int numberOfLetters = E_Note7.values().length - 1;
         if (interval.isPerfect()) {
@@ -410,24 +410,18 @@ public class NotePitch {
         }
     }
 
-    public NotePitch(String name) throws UnsupportedNoteNotationError {
+    NotePitch(String name) throws UnsupportedNoteNotationError {
         setLetter(name);
         setOctaveShift(name, setChromaticShift(name));
     }
 
-    public boolean isChromaticShiftCorrect() {
-        if (_chromaticShift >= -2 && _chromaticShift <= 2) {
-            return true;
-        }
-        return false;
+    boolean isChromaticShiftCorrect() {
+        return _chromaticShift >= -2 && _chromaticShift <= 2;
     }
 
     public boolean isInRange(NotePitch bottom, NotePitch up) {
-        if (bottom.getMidi() <= this.getMidi() &&
-                up.getMidi() >= this.getMidi()) {
-            return true;
-        }
-        return false;
+        return bottom.getMidi() <= this.getMidi() &&
+                up.getMidi() >= this.getMidi();
     }
 
     private void setLetter(String name) throws  UnsupportedNoteNotationError {
@@ -544,36 +538,36 @@ public class NotePitch {
     }
 
     private String getChromaticString() {
-        String string = "";
+        StringBuilder string = new StringBuilder();
         if (_chromaticShift >= 0) {
             for (int i = _chromaticShift; i > 0; i--) {
-                string += "is";
+                string.append("is");
             }
         }
         else {
             for (int i = _chromaticShift; i < 0; i++) {
-                string += "es";
+                string.append("es");
             }
         }
-        return string;
+        return string.toString();
     }
 
     private String getOctaveString() {
-        String string = "";
+        StringBuilder string = new StringBuilder();
         if (_octaveShift >= 0) {
             for (int i = _octaveShift; i > 0; i--) {
-                string += "'";
+                string.append("'");
             }
         }
         else {
             for (int i = _octaveShift; i < 0; i++) {
-                string += ",";
+                string.append(",");
             }
         }
-        return string;
+        return string.toString();
     }
 
-    public E_Note12 getNote12() throws UnsupportedNoteNotationError {
+    E_Note12 getNote12() throws UnsupportedNoteNotationError {
         int note12Int;
         switch (_letter) {
             case Rest: {
@@ -621,7 +615,7 @@ public class NotePitch {
         return E_Note12.values()[note12Int];
     }
 
-    public int getMidi() throws UnsupportedNoteNotationError {
+    private int getMidi() throws UnsupportedNoteNotationError {
         int midi;
         switch (_letter) {
             case Rest: {

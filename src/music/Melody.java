@@ -10,9 +10,8 @@ public class Melody {
 
     private MelodySettings _settings;
     private LinkedList<Note> _notes = new LinkedList<>();
-    private String _outputFileName = "melody";
-    private Random _random = new Random();
-    private int _melodyLength;
+    private final String _outputFileName = "melody";
+    private final Random _random = new Random();
 
     public Melody() {}
 
@@ -42,8 +41,7 @@ public class Melody {
     }
 
     private void generateRandomDurations() {
-        _melodyLength = _settings._numberOfBars * _settings._metreTimeSignature * _settings._metreBeatValue.getInt();
-        int remainingMelodyLength = _melodyLength;
+        int remainingMelodyLength = _settings._numberOfBars * _settings._metreTimeSignature * _settings._metreBeatValue.getInt();
         NoteDuration randomDuration = new NoteDuration();
         int randomDurationInt;
         while (remainingMelodyLength > 0) {

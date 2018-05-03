@@ -9,11 +9,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class MidiPlayer implements ActionListener {
+class MidiPlayer implements ActionListener {
 
-    String _fileName;
+    private final String _fileName;
 
-    public MidiPlayer(String fileName) {
+    MidiPlayer(String fileName) {
         _fileName = fileName;
     }
 
@@ -22,7 +22,7 @@ public class MidiPlayer implements ActionListener {
         playMidiFile();
     }
 
-    public void playMidiFile() {
+    private void playMidiFile() {
         try {
             File _midiFile = new File(_fileName + ".midi");
             Sequencer _sequencer = MidiSystem.getSequencer();

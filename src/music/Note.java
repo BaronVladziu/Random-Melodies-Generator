@@ -3,16 +3,16 @@ package music;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class Note {
+class Note {
 
     private NotePitch _pitch = new NotePitch();
-    private LinkedList<NoteDuration> _durations = new LinkedList<>();
+    private final LinkedList<NoteDuration> _durations = new LinkedList<>();
 
     public Note() {
         this._durations.add(new NoteDuration());
     }
 
-    public Note(NoteDuration duration) {
+    Note(NoteDuration duration) {
         this._durations.add(new NoteDuration(duration));
     }
 
@@ -21,23 +21,23 @@ public class Note {
         this._durations.add(new NoteDuration(duration));
     }
 
-    public void setPitch(NotePitch pitch) {
+    void setPitch(NotePitch pitch) {
         this._pitch = new NotePitch(pitch);
     }
 
-    public String getName() {
-        String name = "";
+    String getName() {
+        StringBuilder name = new StringBuilder();
         ListIterator<NoteDuration> prev = _durations.listIterator();
         ListIterator<NoteDuration> next = _durations.listIterator(1);
         while (next.hasNext()) {
-            name += _pitch.getString() + prev.next().getString() + "~ ";
+            name.append(_pitch.getString()).append(prev.next().getString()).append("~ ");
             next.next();
         }
-        name += _pitch.getString() + prev.next().getString() + " ";
-        return name;
+        name.append(_pitch.getString()).append(prev.next().getString()).append(" ");
+        return name.toString();
     }
 
-    public int groupNote(int remainingGroup, int remainingBar, int groupLength) {
+    int groupNote(int remainingGroup, int remainingBar, int groupLength) {
         int noteDuration = _durations.getFirst().getInt();
         int remainingNoteDuration = noteDuration;
         if (remainingNoteDuration <= remainingGroup) {

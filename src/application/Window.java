@@ -9,15 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class Window extends JFrame implements ActionListener {
+class Window extends JFrame implements ActionListener {
 
-    private PicturePanel _picturePanel = new PicturePanel();
-    private Melody _melody = new Melody();
-    private MidiPlayer _midiPlayer = new MidiPlayer(_melody.getOutputFileName());
-    private UIPanel _uiPanel = new UIPanel(this, _midiPlayer);
+    private final PicturePanel _picturePanel = new PicturePanel();
+    private final Melody _melody = new Melody();
+    private final MidiPlayer _midiPlayer = new MidiPlayer(_melody.getOutputFileName());
+    private final UIPanel _uiPanel = new UIPanel(this, _midiPlayer);
 
 
-    public Window() {
+    Window() {
         super("Random-Melodies-Generator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());

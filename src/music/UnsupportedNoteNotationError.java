@@ -1,8 +1,8 @@
 package music;
 
-public class UnsupportedNoteNotationError extends Error {
+class UnsupportedNoteNotationError extends Error {
 
-    public UnsupportedNoteNotationError(String message) {
+    UnsupportedNoteNotationError(String message) {
         super(message);
     }
 

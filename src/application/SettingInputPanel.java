@@ -3,13 +3,13 @@ package application;
 import javax.swing.*;
 import java.awt.*;
 
-public class SettingInputPanel extends JComponent {
+class SettingInputPanel extends JComponent {
 
-    private JFormattedTextField _nameField = new JFormattedTextField();
-    private JFormattedTextField _inputField = new JFormattedTextField();
+    private final JFormattedTextField _inputField = new JFormattedTextField();
 
-    public SettingInputPanel(String name, String defaultValue) {
+    SettingInputPanel(String name, String defaultValue) {
         setLayout(new FlowLayout());
+        JFormattedTextField _nameField = new JFormattedTextField();
         _nameField.setPreferredSize(new Dimension(130, 25));
         _nameField.setEditable(false);
         _nameField.setBackground(Color.LIGHT_GRAY);
@@ -21,7 +21,7 @@ public class SettingInputPanel extends JComponent {
         setVisible(true);
     }
 
-    public String getInput() {
+    String getInput() {
         return _inputField.getText();
     }
 

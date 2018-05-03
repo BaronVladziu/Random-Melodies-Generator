@@ -2,16 +2,16 @@ package music;
 
 public class MelodySettings {
 
-    public int _metreTimeSignature;
-    public NoteDuration _metreBeatValue;
-    public int _numberOfBars;
+    int _metreTimeSignature;
+    NoteDuration _metreBeatValue;
+    int _numberOfBars;
     public NotePitch _startNote;
     public NotePitch _endNote;
     public NotePitch _highestNote;
     public NotePitch _lowestNote;
-    public int[] _intervalChances = new int[E_Interval26.values().length];
-    public int[] _pitchChances = new int[E_Note12.values().length];
-    public int _tempo;
+    final int[] _intervalChances = new int[E_Interval26.values().length];
+    final int[] _pitchChances = new int[E_Note12.values().length];
+    int _tempo;
 
     public MelodySettings() {
     }
@@ -59,7 +59,7 @@ public class MelodySettings {
         }
     }
 
-    public String getMetre() {
+    String getMetre() {
         return Integer.toString(_metreTimeSignature) + "/" + _metreBeatValue.getString();
     }
 
