@@ -23,14 +23,13 @@ public class MidiPlayer implements ActionListener {
     }
 
     public void playMidiFile() {
+        Sequencer sequencer;
         try {
-            File _midiFile = new File(_fileName + ".midi");
-            Sequencer _sequencer = MidiSystem.getSequencer();
-            _sequencer.setSequence(MidiSystem.getSequence(_midiFile));
-            _sequencer.open();
-            _sequencer.start();
+            sequencer = getSequencerFromMidiFile();
+            sequencer.open();
+            sequencer.start();
             while(true) {
-                if(_sequencer.isRunning()) {
+                if(sequencer.isRunning()) {
                     try {
                         Thread.sleep(1000);
                     } catch(InterruptedException ignore) {
@@ -40,8 +39,8 @@ public class MidiPlayer implements ActionListener {
                     break;
                 }
             }
-            _sequencer.stop();
-            _sequencer.close();
+            sequencer.stop();
+            sequencer.close();
         } catch(InvalidMidiDataException exception) {
             System.out.println("Invalid Midi data");
         } catch(IOException exception) {
@@ -49,6 +48,27 @@ public class MidiPlayer implements ActionListener {
         } catch (MidiUnavailableException exception) {
             System.out.println("Midi interface unavailable");
         }
+    }
+
+    private Sequencer getSequencerFromMidiFile() throws MidiUnavailableException, InvalidMidiDataException, IOException {
+        File midiFile;
+        Sequencer sequencer = MidiSystem.getSequencer();
+        try {
+            midiFile = getMidiFile();
+            sequencer.setSequence(MidiSystem.getSequence(midiFile));
+        } catch(IOException exception) {
+            midiFile = getMidFile();
+            sequencer.setSequence(MidiSystem.getSequence(midiFile));
+        }
+        return sequencer;
+    }
+
+    private File getMidFile() {
+        return new File(_fileName + ".mid");
+    }
+
+    private File getMidiFile() {
+        return new File(_fileName + ".midi");
     }
 
 }
