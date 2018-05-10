@@ -1,5 +1,6 @@
 package application;
 
+import console.ConsolePanel;
 import music.Melody;
 import music.UnsupportedNoteNotationException;
 
@@ -14,8 +15,8 @@ class Window extends JFrame implements ActionListener {
     private final PicturePanel _picturePanel = new PicturePanel();
     private final Melody _melody = new Melody();
     private final MidiPlayer _midiPlayer = new MidiPlayer(_melody.getOutputFileName());
-    private final UIPanel _uiPanel = new UIPanel(this, _midiPlayer);
-
+    private final ConsolePanel _consolePanel = new ConsolePanel();
+    private final UIPanel _uiPanel = new UIPanel(this, _midiPlayer, _consolePanel);
 
     Window() {
         super("Random-Melodies-Generator");
@@ -23,6 +24,7 @@ class Window extends JFrame implements ActionListener {
         setLayout(new FlowLayout());
         add(_picturePanel);
         add(_uiPanel);
+        add(_consolePanel);
         pack();
         setVisible(true);
     }
@@ -30,7 +32,8 @@ class Window extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         _uiPanel.setViewToWorkInProgress();
-        System.out.println("Generating melody settings...");
+        _consolePanel.clear();
+        _consolePanel.display("Generating melody settings...");
         boolean ifNoExceptionHappened = true;
         try {
             _melody.setSettings(_uiPanel.createMelodySettings());
@@ -40,24 +43,24 @@ class Window extends JFrame implements ActionListener {
         }
 
         if (ifNoExceptionHappened) {
-            System.out.println("Melody settings generated");
-            System.out.println("Generating melody...");
+            _consolePanel.display("Melody settings generated");
+            _consolePanel.display("Generating melody...");
             try {
                 _melody.generate();
             }
             catch (UnsupportedNoteNotationException exception) {
-                System.out.println(exception.getMessage());
+                _consolePanel.display(exception.getMessage());
             }
             try {
                 _picturePanel.displayImage(_melody.getOutputFileName() + ".png");
             }
             catch (IOException exception) {
-                System.out.println("Failed to find compiled file");
+                _consolePanel.display("Failed to find compiled file");
             }
-            System.out.println("Melody generated");
+            _consolePanel.display("Melody generated\n");
         }
         else {
-            System.out.println("Generating melody settings failed!");
+            _consolePanel.display("Generating melody settings failed!\n");
         }
         _uiPanel.setViewToDone();
     }

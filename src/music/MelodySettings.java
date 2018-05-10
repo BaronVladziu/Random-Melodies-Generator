@@ -57,6 +57,9 @@ public class MelodySettings {
                 throw new UnsupportedNoteNotationException("Metre notation not understood");
             }
         }
+        if (beatValue != 4) {
+            throw new UnsupportedNoteNotationException("Unsupported beat values other than 4");
+        }
     }
 
     String getMetre() {
