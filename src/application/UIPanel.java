@@ -149,11 +149,11 @@ class UIPanel extends JComponent {
 
         if (!settings._startNote.isInRange(settings._lowestNote, settings._highestNote)) {
             ifNoException = false;
-            _consolePanel.display("Start note is not between lowest and highest notes");
+            _consolePanel.display("Dźwięk początkowy musi być pomiędzy najniższym i najwyższym!");
         }
         if (!settings._endNote.isInRange(settings._lowestNote, settings._highestNote)) {
             ifNoException = false;
-            _consolePanel.display("End note is not between lowest and highest notes");
+            _consolePanel.display("Dźwięk końcowy musi być pomiędzy najniższym i najwyższym!");
         }
 
         boolean ifPitchExceptionHappened = false;
@@ -193,7 +193,7 @@ class UIPanel extends JComponent {
         }
 
         if (!ifNoException) {
-            throw new UnsupportedNoteNotationException("Wrong input, cannot proceed");
+            throw new UnsupportedNoteNotationException("Nieprawidłowe ustawienia, nie można kontynuować!");
         }
         return settings;
     }

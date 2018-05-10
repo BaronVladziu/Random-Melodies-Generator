@@ -33,7 +33,7 @@ class Window extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         _uiPanel.setViewToWorkInProgress();
         _consolePanel.clear();
-        _consolePanel.display("Generating melody settings...");
+        _consolePanel.display("Sprawdzanie poprawności ustawień...");
         boolean ifNoExceptionHappened = true;
         try {
             _melody.setSettings(_uiPanel.createMelodySettings());
@@ -43,8 +43,8 @@ class Window extends JFrame implements ActionListener {
         }
 
         if (ifNoExceptionHappened) {
-            _consolePanel.display("Melody settings generated");
-            _consolePanel.display("Generating melody...");
+            _consolePanel.display("Ustawienia sprawdzone");
+            _consolePanel.display("Generowanie melodii...");
             try {
                 _melody.generate();
             }
@@ -55,12 +55,12 @@ class Window extends JFrame implements ActionListener {
                 _picturePanel.displayImage(_melody.getOutputFileName() + ".png");
             }
             catch (IOException exception) {
-                _consolePanel.display("Failed to find compiled file");
+                _consolePanel.display("Nie znaleziono skompilowanego pliku .png!");
             }
-            _consolePanel.display("Melody generated\n");
+            _consolePanel.display("Melodia wygenerowana");
         }
         else {
-            _consolePanel.display("Generating melody settings failed!\n");
+            _consolePanel.display("Nie udało się wygenerować melodii!");
         }
         _uiPanel.setViewToDone();
     }

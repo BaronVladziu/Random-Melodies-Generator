@@ -20,17 +20,17 @@ public class MelodySettings {
         String[] numbers = metre.split("/");
         int beatValue;
         if (numbers.length != 2) {
-            throw new UnsupportedNoteNotationException("Metre notation not understood");
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać metrum!");
         }
         try {
             _metreTimeSignature = Integer.parseInt(numbers[0]);
             if (_metreTimeSignature <= 0) {
-                throw new UnsupportedNoteNotationException("Time signature must be greater than 0");
+                throw new UnsupportedNoteNotationException("Górna liczba w metrum musi być większa od 0!");
             }
             beatValue = Integer.parseInt(numbers[1]);
         }
         catch (Exception exception) {
-            throw new UnsupportedNoteNotationException("Metre notation not understood");
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać metrum!");
         }
         switch (beatValue) {
             case 1: {
@@ -54,11 +54,11 @@ public class MelodySettings {
                 break;
             }
             default: {
-                throw new UnsupportedNoteNotationException("Metre notation not understood");
+                throw new UnsupportedNoteNotationException("Nie udało się odczytać metrum!");
             }
         }
         if (beatValue != 4) {
-            throw new UnsupportedNoteNotationException("Unsupported beat values other than 4");
+            throw new UnsupportedNoteNotationException("Wartości podstawy metrum inne niż 4 nie są obsługiwane!");
         }
     }
 
@@ -70,11 +70,11 @@ public class MelodySettings {
         try {
             _numberOfBars = Integer.parseInt(numberOfBars);
             if (_numberOfBars <= 0) {
-                throw new UnsupportedNoteNotationException("Number of bars must be greater than 0");
+                throw new UnsupportedNoteNotationException("Liczba taktów musi być większa od 0");
             }
         }
         catch (Exception exception) {
-            throw new UnsupportedNoteNotationException("Number of bars must be an integer");
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać liczby taktów!");
         }
     }
 
@@ -83,7 +83,7 @@ public class MelodySettings {
             _startNote = new NotePitch(startNote);
         }
         catch (UnsupportedNoteNotationError error) {
-            throw new UnsupportedNoteNotationException("Unsupprted start note notation: " + error.getMessage());
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać dźwięku początkowego!");
         }
     }
 
@@ -92,7 +92,7 @@ public class MelodySettings {
             _endNote = new NotePitch(endNote);
         }
         catch (UnsupportedNoteNotationError error) {
-            throw new UnsupportedNoteNotationException("Unsupprted end note notation: " + error.getMessage());
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać dźwięku końcowego!");
         }
     }
 
@@ -101,7 +101,7 @@ public class MelodySettings {
             _highestNote = new NotePitch(highestNote);
         }
         catch (UnsupportedNoteNotationError error) {
-            throw new UnsupportedNoteNotationException("Unsupprted highest note notation: " + error.getMessage());
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać dźwięku najwyższego!");
         }
     }
 
@@ -110,7 +110,7 @@ public class MelodySettings {
             _lowestNote = new NotePitch(lowestNote);
         }
         catch (UnsupportedNoteNotationError error) {
-            throw new UnsupportedNoteNotationException("Unsupprted lowest note notation: " + error.getMessage());
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać dźwięku najniższego!");
         }
     }
 
@@ -118,10 +118,10 @@ public class MelodySettings {
         try {
             _intervalChances[index] = Integer.parseInt(intervalChance);
             if (_intervalChances[index] < 0) {
-                throw new UnsupportedNoteNotationException("All interval chances must be greater or equal to 0");
+                throw new UnsupportedNoteNotationException("Szansa żadnego interwału nie może być mniejsza od 0!");
             }
         } catch (Exception exception) {
-            throw new UnsupportedNoteNotationException("All interval chances must be integers");
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać szans wszystkich interwałów!");
         }
     }
 
@@ -129,10 +129,10 @@ public class MelodySettings {
         try {
             _pitchChances[index] = Integer.parseInt(pitchChance);
             if (_pitchChances[index] < 0) {
-                throw new UnsupportedNoteNotationException("All pitch chances must be greater or equal to 0");
+                throw new UnsupportedNoteNotationException("Szansa żadnego dźwięku nie może być mniejsza od 0!");
             }
         } catch (Exception exception) {
-            throw new UnsupportedNoteNotationException("All pitch chances must be integers");
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać szans wszystkich dźwięków!");
         }
     }
 
@@ -140,11 +140,11 @@ public class MelodySettings {
         try {
             _tempo = Integer.parseInt(tempo);
             if (_tempo <= 0) {
-                throw new UnsupportedNoteNotationException("Tempo must be greater than 0");
+                throw new UnsupportedNoteNotationException("Tempo musi być większe od 0!");
             }
         }
         catch (Exception exception) {
-            throw new UnsupportedNoteNotationException("Tempo must be an integer");
+            throw new UnsupportedNoteNotationException("Nie udało się odczytać tempa!");
         }
     }
 
